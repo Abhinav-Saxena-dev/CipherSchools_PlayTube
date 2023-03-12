@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import CommentForm from './CommentForm';
@@ -7,12 +7,14 @@ import CommentForm from './CommentForm';
 const Video = () => {
   const { id } = useParams();
   const [video, setVideo] = useState(null);
+  const replyForm = useRef(false)
   console.log(id)
 
   let fetchVideo = async () => {
     try {
       const response = await axios.get(`http://localhost:5000/api/${id}`);
       setVideo(response.data);
+      replyForm.current = false
     } catch (error) {
       console.log(error);
     }
@@ -37,9 +39,13 @@ const Video = () => {
           />
           <CommentForm videoId={video._id} fetchVideo = {fetchVideo}/>
           {video.comments.map(comment => (
-            <div key={comment._id}>
+            <div style={{border : "1px solid black"}} key={comment._id}>
               <div><b>{comment.name}</b><br/></div>
               <p>{comment.text}</p>
+              <button onReply = {replyForm.current = true}>Reply</button>
+              {
+
+              }
             </div>
           ))}
         </>
