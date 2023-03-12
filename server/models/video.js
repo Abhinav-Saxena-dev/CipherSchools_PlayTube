@@ -2,7 +2,9 @@ const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema(
   {
+    name: { type : String },
     text: { type: String, required: true },
+    replies : [this]
   },
   { timestamps: true }
 );
